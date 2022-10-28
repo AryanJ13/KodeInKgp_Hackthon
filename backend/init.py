@@ -1,38 +1,36 @@
 import sqlite3
-from typing import List
 
 
 # Order No. Placer  Quantity    Price
 # 1         ~       ~           ~
 # 2         ~       ~           ~
 # 3         ~       ~           ~
-def orderbooks(stocks: List(str)):
+def orderbooks(stocks: list(str)):
     con = sqlite3.connect("orderbooks_buys.db")
     cur = con.cursor()
 
-    for stock in stocks:
-        cmd = "CREATE TABLE " + stock + "(placer, qty, price)"
-        cur.execute(cmd)
+    cmd = "CREATE TABLE stock(placer, qty, price)"
+    cur.execute(cmd)
     con = sqlite3.connect("orderbooks_sells.db")
     cur = con.cursor()
 
     for stock in stocks:
-        cmd = "CREATE TABLE " + stock + "(placer, qty, price)"
+        cmd = "CREATE TABLE stock(placer, qty, price)"
         cur.execute(cmd)
 
 
-# Sr. No,   Stock name, Placer, Buyer, Qty, Price
-def tradebook(stocks: List(str)):
+# Sr. No, Stock name, Placer, Buyer, Qty, Price
+def tradebook(stocks: list(str)):
     con = sqlite3.connect("tradebook_buys.db")
     cur = con.cursor()
 
     for stock in stocks:
-        cmd = "CREATE TABLE " + stock + "(key, stock, placer, buyer, qty, price)"
+        cmd = "CREATE TABLE stock(key, stock, placer, buyer, qty, price)"
         cur.execute(cmd)
 
     con = sqlite3.connect("tradebook_sells.db")
     cur = con.cursor()
 
     for stock in stocks:
-        cmd = "CREATE TABLE " + stock + "(key, stock, placer, buyer, qty, price)"
+        cmd = "CREATE TABLE stock(key, stock, placer, buyer, qty, price)"
         cur.execute(cmd)
