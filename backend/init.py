@@ -1,10 +1,10 @@
 import sqlite3
 
 
-# Order No. Placer  Quantity    Price
-# 1         ~       ~           ~
-# 2         ~       ~           ~
-# 3         ~       ~           ~
+# Placer  Quantity    Price
+# ~       ~           ~
+# ~       ~           ~
+# ~       ~           ~
 def orderbooks(stocks: list(str)):
     con = sqlite3.connect("orderbooks_buys.db")
     cur = con.cursor()
