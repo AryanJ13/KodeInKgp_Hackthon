@@ -16,7 +16,7 @@ def read_users():
 
 
 @app.route("/price", methods=["GET"])
-def read_price() -> list[int]:
+def read_price():
     list = [0] * 1000
     con = sqlite3.connect("../tradebook.db")
     cur = con.cursor()

@@ -28,6 +28,12 @@ const data = [
   { order_id: 5, seller: "W", buyer: "R", qunatity: 2, price: 50 },
 ];
 
+const user_data = [
+    {user_id: 1, balance: '$50', qunatity: 2},
+    {user_id: 2, balance: '$60', qunatity: 3},
+    {user_id: 3, balance: '$80', qunatity: 2},
+]
+
 function App() {
   return (
     <div className="Kodein">
@@ -80,6 +86,27 @@ function App() {
       <div>
         <OrderBook />
       </div>
+
+      <div class="usertable">
+        <table>
+          <tr>
+            <th>User ID</th>
+            <th>Balance</th>
+            <th>Quantity</th>
+          </tr>
+          {user_data.map((val, key) => {
+            return (
+              <tr key={key}>
+                <td>{val.user_id}</td>
+                <td>{val.balance}</td>
+                <td>{val.qunatity}</td>
+              </tr>
+            );
+          })}
+        </table>
+      </div>
+
+
     </div>
   );
 }

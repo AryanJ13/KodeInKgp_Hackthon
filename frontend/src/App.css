@@ -27,15 +27,6 @@ td {
   text-align: center;
 }
 
-.order-container {
-  display: flex;
-  position: absolute;
-  top: 80px;
-  right: 10px;
-  float: right;
-  height: 50%;
-}
-
 .name {
   position: absolute;
   top: 30px;
@@ -68,4 +59,18 @@ tr:hover {
 
 .html {
   background-color: #181A1B;
+}
+.order-container {
+  display: flex;
+  position: absolute;
+  top: 80px;
+  right: 10px;
+  float: right;
+  height: 50%;
+}
+
+.usertable{
+  position: relative;
+  top:-250px;
+  left: 400px;
 }
