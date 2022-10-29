@@ -31,7 +31,10 @@ const data = [
 function App() {
   return (
     <div className="Kodein">
-      <ResponsiveContainer width="80%" aspect={2.8}>
+        <div class ="heading">
+            <h1>Stock Market Auction</h1>
+        </div>
+      <ResponsiveContainer width="75%" aspect={2.8}>
         <AreaChart data={pdata} margin={{ right: 300 }}>
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
