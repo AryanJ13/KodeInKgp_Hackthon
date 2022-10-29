@@ -1,10 +1,12 @@
+
 class User:
-    def __init__(self) -> None:
+    def __init__(self, name:str) -> None:
         self.balance = 0
-        self.qty = dict()
+        self.qty = 0
+        self.name = name
 
     def change_balance(self, x: int):
         self.balance += x
 
-    def change_qty(self, stock_name: str, x: int):
-        self.qty[stock_name] += x
+    def change_qty(self, x: int):
+        self.qty += x
