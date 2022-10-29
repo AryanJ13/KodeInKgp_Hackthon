@@ -1,3 +1,4 @@
+from re import L
 from typing_extensions import Self
 
 
@@ -17,11 +18,14 @@ class Order:
         self.nextOrder = next_order
 
     def remove_order(self):
-        self.nextOrder = None
-        if self.prevOrder != None:
-            self.prevOrder.nextOrder = self.nextOrder
-        else:
+        # self.nextOrder = None
+        if self.nextOrder == None and self.prevOrder==None:
             self.parentLimit.remove_limit()
+        elif self.prevOrder==None:
+            self=self.nextOrder
+        else:
+            self.prevOrder.nextOrder = self.nextOrder
+            
 
 
 class Limit:
@@ -91,13 +95,72 @@ class Book:
                 self.ordersSell[order.id] = order
                 self.limitsSell[order.price] = limit
     
+    def lowestSell(self,node: Limit):
+        if node.leftChild==None:
+            return node
+        return self.lowestSell(node.leftChild)
+
+    def LargestBuy(self,node: Limit):
+        if node.rightChild==None:
+            return node
+        return self.LargestBuy(node.rightChild)
     # Returns lowestSell
-    def buy() -> Order:
-        pass
+    def buy(self, quantity: int) -> Order:
+        head: Limit
+        head=self.lowestSell(self,self.SellTree)
+        # if quantity>= self.ordersBuy[head.headOrder.id]:
+        orders: Order
+        orders=None
+        node=head.headOrder
+        while node!=None:
+            if quantity==0:
+                break;
+            elif quantity>=node.quantity:
+                if orders==None:
+                    orders=node
+                else:
+                    orders.nextOrder=node
+                quantity=quantity-node.quantity
+                head.headOrder.remove_order(node)
+            else:
+                if orders==None:
+                    orders=node
+                else:
+                    orders.nextOrder=node
+                quantity=0
+                node.quantity=node.quantity-quantity
+            node=node.nextOrder
+        return orders
+        # pass
     
     # Return highestBuy
-    def sell() -> Order:
-        pass
+    def sell(self, quantiy: int) -> Order:
+        head: Limit
+        head=self.LargestBuy(self,self.BuyTree)
+        # if quantity>= self.ordersBuy[head.headOrder.id]:
+        orders: Order
+        orders=None
+        node=head.headOrder
+        while node!=None:
+            if quantity==0:
+                break;
+            elif quantity>=node.quantity:
+                if orders==None:
+                    orders=node
+                else:
+                    orders.nextOrder=node
+                quantity=quantity-node.quantity
+                head.headOrder.remove_order(node)
+            else:
+                if orders==None:
+                    orders=node
+                else:
+                    orders.nextOrder=node
+                quantity=0
+                node.quantity=node.quantity-quantity
+            node=node.nextOrder
+        return orders
+        # pass
 
 
 import unittest
