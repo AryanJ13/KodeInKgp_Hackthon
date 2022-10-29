@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import OrderBook from "./OrderBook";
 
 const data = [
     {order_id: 1, seller: "A", buyer: "D", qunatity: 1, price: 10},
@@ -30,7 +31,15 @@ const data = [
             )
           })}
         </table>
+        <div>
+        <h2>Crypto Order Book </h2>
+        <OrderBook />
+        </div>
+
       </div>
     );
   }
+
+
+
 export default App;
