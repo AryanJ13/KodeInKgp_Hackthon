@@ -31,7 +31,7 @@ const data = [
 function App() {
   return (
     <div className="Kodein">
-      <ResponsiveContainer width="80%" aspect={3}>
+      <ResponsiveContainer width="80%" aspect={2.8}>
         <AreaChart data={pdata} margin={{ right: 300 }}>
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -52,7 +52,7 @@ function App() {
           />
         </AreaChart>
       </ResponsiveContainer>
-      <div class = "tradebook">
+      <div class="tradebook">
         <table>
           <tr>
             <th>Order Id</th>
