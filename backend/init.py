@@ -1,5 +1,8 @@
 import os
+from random import randint
 import sqlite3
+import time
+from data_structure import Order
 
 from user import User
 
@@ -11,8 +14,20 @@ def tradebook():
 
     cmd = "CREATE TABLE stock(id, buyer, seller, qty, price, time)"
     cur.execute(cmd)
-    u1, u2, u3 = User(1), User(2), User(3)
-    
+    u = [User(1), User(2), User(3)]
+    sqlite_insert_query = """INSERT INTO stock(id, buyer, seller, qty, price, time)
+VALUES (?,?,?,?,?,?);"""
+    # prices, qty, times, buyer = [], [], [], []
+    for i in range(100):
+        data = (
+            i + 1,
+            randint(0, 3),
+            randint(0, 3),
+            randint(0, 20),
+            randint(100, 150),
+            time.time() - 600 * i,
+        )
+        cur.execute(sqlite_insert_query, data)
     con.commit()
 
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AreaChart,
   ResponsiveContainer,
@@ -12,13 +12,13 @@ import {
 import "./App.css";
 import OrderBook from "./OrderBook";
 
-var a = [...Array(50).keys()];
-var b = Array.from({ length: 50 }, () => Math.floor(Math.random() * 50));
-b.sort();
-
-const pdata = a.map(function (e, i) {
-  return { index: e, value: b[i] };
-});
+var times = [...Array(50).keys()];
+for (let i = 0; i < times.length; i++) {
+  var timestamp = Date.now() - i * 600;
+  var date = new Date(timestamp);
+  times[i] = String(date.getMinutes()).padStart(2, '0') + ":" + String(date.getSeconds()).padStart(2, '0')
+}
+times.reverse()
 
 const data = [
   { order_id: 1, seller: "A", buyer: "D", qunatity: 1, price: 10 },
@@ -35,11 +35,23 @@ const user_data = [
 ]
 
 function App() {
+  const [b, setB] = useState([...Array(50).keys()]);
+
+  fetch("/price").then((res) =>
+    res.json().then((data) => {
+      setB(data.slice(0, 100).reverse());
+    })
+  );
+
+  var pdata = times.map(function (e, i) {
+    return { index: e, value: b[i + 18] };
+  });
+
   return (
     <div className="Kodein">
-        <div class ="heading">
-            <h1>Stock Market Auction</h1>
-        </div>
+      <div class="heading">
+        <h1>Stock Market Auction</h1>
+      </div>
       <ResponsiveContainer width="75%" aspect={2.8}>
         <AreaChart data={pdata} margin={{ right: 300 }}>
           <defs>

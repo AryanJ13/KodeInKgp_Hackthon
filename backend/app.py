@@ -1,4 +1,6 @@
 import sqlite3
+import time
+from unicodedata import name
 from flask import Flask, request, jsonify
 from user import User
 
@@ -23,9 +25,13 @@ def read_price():
     sqlite_select_query = """SELECT * from stock"""
     entries = cur.execute(sqlite_select_query)
     for entry in entries:
-        time = entry[5]
-        time = time.time() - time
-        time /= 600
-        list[time] = entry[4]
+        t = entry[5]
+        t = time.time() - t
+        t = int(t // 600)
+        list[t] = entry[4]
     with app.app_context():
-        return jsonify(list)
+        return list
+
+
+if __name__ == "__main__":
+    read_price()
