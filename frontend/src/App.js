@@ -14,63 +14,24 @@ import OrderBook from "./OrderBook";
 
 var a = [...Array(50).keys()];
 var b = Array.from({ length: 50 }, () => Math.floor(Math.random() * 50));
+b.sort();
 
 const pdata = a.map(function (e, i) {
   return { index: e, value: b[i] };
 });
 
 const data = [
-<<<<<<< HEAD
-    {order_id: 1, seller: "A", buyer: "D", qunatity: 1, price: 10},
-    {order_id: 2, seller: "B", buyer: "E", qunatity: 2, price: 30},
-    {order_id: 3, seller: "C", buyer: "F", qunatity: 3, price: 20},
-  ]
-    
-  function App() {
-    return (
-      <div className="App">
-        <table>
-          <tr>
-            <th>Order Id</th>
-            <th>Seller</th>
-            <th>Buyer</th>
-            <th>Quantity</th>
-            <th>Price</th>
-          </tr>
-          {data.map((val, key) => {
-            return (
-              <tr key={key}>
-                <td>{val.order_id}</td>
-                <td>{val.seller}</td>
-                <td>{val.buyer}</td>
-                <td>{val.qunatity}</td>
-                <td>{val.price}</td>
-              </tr>
-            )
-          })}
-        </table>
-        <div>
-        <h2>Crypto Order Book </h2>
-        <OrderBook />
-        </div>
-
-      </div>
-    );
-  }
-
-
-
-export default App;
-=======
   { order_id: 1, seller: "A", buyer: "D", qunatity: 1, price: 10 },
   { order_id: 2, seller: "B", buyer: "E", qunatity: 2, price: 30 },
   { order_id: 3, seller: "C", buyer: "F", qunatity: 3, price: 20 },
+  { order_id: 4, seller: "Q", buyer: "E", qunatity: 4, price: 40 },
+  { order_id: 5, seller: "W", buyer: "R", qunatity: 2, price: 50 },
 ];
 
 function App() {
   return (
     <div className="Kodein">
-      <ResponsiveContainer width="100%" aspect={3}>
+      <ResponsiveContainer width="80%" aspect={2.8}>
         <AreaChart data={pdata} margin={{ right: 300 }}>
           <defs>
             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -91,28 +52,32 @@ function App() {
           />
         </AreaChart>
       </ResponsiveContainer>
-      <table>
-        <tr>
-          <th>Order Id</th>
-          <th>Seller</th>
-          <th>Buyer</th>
-          <th>Quantity</th>
-          <th>Price</th>
-        </tr>
-        {data.map((val, key) => {
-          return (
-            <tr key={key}>
-              <td>{val.order_id}</td>
-              <td>{val.seller}</td>
-              <td>{val.buyer}</td>
-              <td>{val.qunatity}</td>
-              <td>{val.price}</td>
-            </tr>
-          );
-        })}
-      </table>
+      <div class="tradebook">
+        <table>
+          <tr>
+            <th>Order Id</th>
+            <th>Seller</th>
+            <th>Buyer</th>
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
+          {data.map((val, key) => {
+            return (
+              <tr key={key}>
+                <td>{val.order_id}</td>
+                <td>{val.seller}</td>
+                <td>{val.buyer}</td>
+                <td>{val.qunatity}</td>
+                <td>{val.price}</td>
+              </tr>
+            );
+          })}
+        </table>
+      </div>
+      <div>
+        <OrderBook />
+      </div>
     </div>
   );
 }
 export default App;
->>>>>>> b66c406ec10eff976b26f25a11f83bc663abf043
