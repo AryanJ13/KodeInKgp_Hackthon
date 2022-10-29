@@ -11,6 +11,9 @@ def tradebook():
 
     cmd = "CREATE TABLE stock(id, buyer, seller, qty, price, time)"
     cur.execute(cmd)
+    u1, u2, u3 = User(1), User(2), User(3)
+    
+    con.commit()
 
 
 def users():

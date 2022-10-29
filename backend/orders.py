@@ -13,7 +13,7 @@ def generate_id() -> int:
 # cmd = "CREATE TABLE stock(id, buyer, seller, qty, price, time)"
 def buy_market(book: Book, buyer: User, quantity: int):
     orders = Book.buy(Book, quantity)
-    con = sqlite3.connect("tradebook_buys.db")
+    con = sqlite3.connect("tradebook.db")
     cur = con.cursor()
     for order in orders:
         data = (
@@ -57,7 +57,7 @@ def buy_market(book: Book, buyer: User, quantity: int):
 
 def sell_market(book: Book, seller: User, quantity: int):
     orders = book.sell(book, quantity)
-    con = sqlite3.connect("tradebook_buys.db")
+    con = sqlite3.connect("tradebook.db")
     cur = con.cursor()
     for order in orders:
         data = (
