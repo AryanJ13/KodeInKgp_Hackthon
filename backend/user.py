@@ -3,7 +3,7 @@ class User:
         self.balance = 0
         self.qty = dict()
 
-    def add_balance(self, x: int):
+    def change_balance(self, x: int):
         self.balance += x
 
     def change_qty(self, stock_name: str, x: int):

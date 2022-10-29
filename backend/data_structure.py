@@ -62,6 +62,7 @@ class Limit:
 
 class Book:
     def __init__(self) -> None:
+<<<<<<< Updated upstream
         self.buyTree: Limit = None
         self.sellTree: Limit = None
         self.lowestSell: Limit = None
@@ -121,3 +122,10 @@ class TestStringMethods(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+=======
+        self.buyTree: Limit
+        self.sellTree: Limit
+        self.lowestSell: Limit
+        self.highestBuy: Limit
+           
+>>>>>>> Stashed changes
