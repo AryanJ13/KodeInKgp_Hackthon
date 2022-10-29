@@ -9,16 +9,16 @@
   align-items: center;
 }
 
-.heading{
+.heading {
   justify-content: center;
 }
-  
+
 table {
   border: 2px solid forestgreen;
   width: 280px;
   height: 80px;
 }
-  
+
 th {
   border-bottom: 1px solid black;
 }
@@ -32,6 +32,7 @@ td {
   top: 30px;
   right: 180px;
 }
+
 /* table {
   border-collapse: collapse;
   width: 100%;
@@ -41,10 +42,12 @@ h1,
 h2 {
   text-align: center;
 }
+
 td,
 th {
   padding: 6px;
 }
+
 tr:nth-child(even) {
   background-color: #f2f2f2;
 }
@@ -60,6 +63,7 @@ tr:hover {
 .html {
   background-color: #181A1B;
 }
+
 .order-container {
   display: flex;
   position: absolute;
@@ -69,8 +73,47 @@ tr:hover {
   height: 50%;
 }
 
-.usertable{
+.usertable {
   position: relative;
-  top:-250px;
+  top: -405px;
   left: 400px;
+}
+
+.market {
+  border-bottom: 2px solid forestgreen;
+  padding-left: 10px;
+  height: min-content;
+  width: 13%;
+  position: relative;
+  top: -630px;
+  left: 700px;
+}
+
+.actions {
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  width: 13%;
+  padding: 10px;
+  top: -630px;
+  left: 700px;
+}
+
+.buttonB {
+  width: 80px;
+  height: 30px;
+}
+.orderB {
+  position: relative;
+  top: -630px;
+  left: 760px;
+  width: 100px;
+  height: 30px;
+}
+
+.data {
+  position: relative;
+  top: -620px;
+  left: 720px;
+  width: 13%;
 }

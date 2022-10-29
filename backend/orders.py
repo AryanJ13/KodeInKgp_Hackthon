@@ -2,7 +2,6 @@ from random import randint
 import sqlite3
 import time
 import unittest
-from user import User
 from data_structure import Book, Limit, Order
 
 
@@ -11,8 +10,8 @@ def generate_id() -> int:
 
 
 # cmd = "CREATE TABLE stock(id, buyer, seller, qty, price, time)"
-def buy_market(book: Book, buyer: User, quantity: int):
-    orders = Book.buy(Book, quantity)
+def buy_market(book: Book, buyer: int, quantity: int):
+    orders = book.buy(quantity)
     con = sqlite3.connect("tradebook.db")
     cur = con.cursor()
     for order in orders:
@@ -55,8 +54,8 @@ def buy_market(book: Book, buyer: User, quantity: int):
     pass
 
 
-def sell_market(book: Book, seller: User, quantity: int):
-    orders = book.sell(book, quantity)
+def sell_market(book: Book, seller: int, quantity: int):
+    orders = book.sell(quantity)
     con = sqlite3.connect("tradebook.db")
     cur = con.cursor()
     for order in orders:
@@ -83,7 +82,7 @@ def sell_market(book: Book, seller: User, quantity: int):
         cur.execute(sqlite_insert_query)
 
 
-def buy_limit(book: Book, buyer: User, quantity: int, price: int):
+def buy_limit(book: Book, buyer: int, quantity: int, price: int):
     randId = generate_id()
     if price < book.lowestSell(book, book.sellTree):
         book.insert(Order(randId, True, price, quantity))
@@ -91,7 +90,7 @@ def buy_limit(book: Book, buyer: User, quantity: int, price: int):
         buy_market(book, buyer, quantity)
 
 
-def sell_limit(book: Book, buyer: User, quantity: int, price: int):
+def sell_limit(book: Book, buyer: int, quantity: int, price: int):
     randId = generate_id()
     if price > book.LargestBuy(book, book.buyTree):
         book.insert(Order(randId, False, price, quantity))
@@ -105,15 +104,14 @@ class TestStringMethods(unittest.TestCase):
 
     def test_buy_limit(self):
         book = Book()
-        user = User(1)
         # o1, o2, o3 = [
         #     Order(1, True, 110, 10, user, time.time()),
         #     Order(2, True, 120, 10, user, time.time()),
         #     Order(3, True, 110, 10, user, time.time()),
         # ]
         # l1, l2, l3 = [Limit(o1), Limit(o2), Limit(o3)]
-        buy_limit(book, user, 10, 100)
-        buy_limit(book, user, 10, 110)
+        buy_limit(book, 1, 10, 100)
+        buy_limit(book, 1, 10, 110)
 
 
 if __name__ == "__main__":
