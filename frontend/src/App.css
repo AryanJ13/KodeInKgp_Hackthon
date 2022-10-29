@@ -23,8 +23,17 @@ td {
 
 .order-container {
   display: flex;
-  width: 100%;
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  float: right;
   height: 50%;
+}
+
+.name {
+  position: absolute;
+  top: 0px;
+  right: 180px;
 }
 /* table {
   border-collapse: collapse;
@@ -45,4 +54,8 @@ tr:nth-child(even) {
 
 tr:hover {
   background-color: #ddd;
+}
+
+.tradebook {
+  padding: 30px;
 }
