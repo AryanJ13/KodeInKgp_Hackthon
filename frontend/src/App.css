@@ -2,9 +2,11 @@
   width: 100%;
   height: 100vh;
   display: flex;
+  color: white;
+  background-color: black;
+  padding: 20px;
   justify-content: top left;
   align-items: center;
-  background-color: black;
 }
 
 .heading{
@@ -62,4 +64,8 @@ tr:hover {
 
 .tradebook {
   padding: 30px;
+}
+
+.html {
+  background-color: #181A1B;
 }

@@ -1,5 +1,6 @@
+import sqlite3
 from flask import Flask, request, jsonify
-import user.py
+from user import User
 
 app = Flask(__name__)
 
@@ -9,10 +10,9 @@ def hello_world():
     return "<p>Hello, World!</p>"
 
 @app.route("/user", methods=["POST"])
-def testpost():
-     input_json = request.get_json(force=True) 
-     dictToReturn = {
-        'text': ,
-        '':
-        }
-     return jsonify(dictToReturn)    
+def read_users() -> list[User]:
+    con = sqlite3.connect("users.db")
+    cur = con.cursor()
+    sqlite_select_query = """SELECT ALL from users"""
+    cur.execute(sqlite_select_query)
+    return jsonify(cur.fetchall())

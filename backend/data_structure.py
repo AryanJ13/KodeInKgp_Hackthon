@@ -1,16 +1,18 @@
 from re import L
 from typing_extensions import Self
+import time
 
-from backend.user import User
+from user import User
 
 
 # buyOrSell: True == Buy, False == Sell
 class Order:
-    def __init__(self, id, buyOrSell, price, size, placer: User) -> None:
+    def __init__(self, id, buyOrSell, price, size, placer: User, time) -> None:
         self.id: int = id
         self.buyOrSell: bool = buyOrSell
         self.price: int = price
         self.placer: User = placer
+        self.time: int = time
         self.quantity: int = size
         self.nextOrder: Order = None
         self.prevOrder: Order = None
@@ -24,16 +26,18 @@ class Order:
         # self.nextOrder = None
         if self.nextOrder == None and self.prevOrder == None:
             self.parentLimit.remove_limit()
+            return -1
         elif self.prevOrder == None:
             self = self.nextOrder
         else:
             self.prevOrder.nextOrder = self.nextOrder
+        return 0
 
 
 class Limit:
-    def __init__(self, limitPrice, size, order) -> None:
-        self.limitPrice: int = limitPrice
-        self.size: int = size
+    def __init__(self, order: Order) -> None:
+        self.limitPrice: int = order.price
+        self.size: int = order.quantity
         self.parent: Limit = None
         self.leftChild: Limit = None
         self.rightChild: Limit = None
@@ -97,20 +101,20 @@ class Book:
                 self.ordersSell[order.id] = order
                 self.limitsSell[order.price] = limit
 
-    def lowestSell(self, node: Limit):
+    def get_lowestSell(self, node: Limit):
         if node.leftChild == None:
-            return node
+            self.lowestSell = node
         return self.lowestSell(node.leftChild)
 
-    def largestBuy(self, node: Limit):
+    def get_highestBuy(self, node: Limit):
         if node.rightChild == None:
-            return node
-        return self.LargestBuy(node.rightChild)
+            self.highestBuy = node
+        return self.largestBuy(node.rightChild)
 
     # Returns lowestSell
     def buy(self, quantity: int) -> list[Order]:
         head: Limit
-        head = self.lowestSell(self, self.SellTree)
+        head = self.lowestSell
         # if quantity>= self.ordersBuy[head.headOrder.id]:
         orders = []
         orders = None
@@ -121,7 +125,8 @@ class Book:
             elif quantity >= node.quantity:
                 orders.append(node)
                 quantity = quantity - node.quantity
-                head.headOrder.remove_order(node)
+                if head.headOrder.remove_order(node) == -1:
+                    self.get_highestBuy(self.buyTree)
             else:
                 orders.append(node)
                 quantity = 0
@@ -133,7 +138,7 @@ class Book:
     # Return highestBuy
     def sell(self, quantity: int) -> list[Order]:
         head: Limit
-        head = self.largestBuy(self, self.BuyTree)
+        head = self.highestBuy
         orders = []
         orders = None
         node = head.headOrder
@@ -143,7 +148,8 @@ class Book:
             elif quantity >= node.quantity:
                 orders.append(node)
                 quantity = quantity - node.quantity
-                head.headOrder.remove_order(node)
+                if head.headOrder.remove_order(node) == -1:
+                    self.get_lowestSell(self.sellTree)
             else:
                 orders.append(node)
                 quantity = 0
@@ -161,8 +167,13 @@ class TestStringMethods(unittest.TestCase):
         pass
 
     def test_insert_cancel(self):
-        o1, o2, o3 = [Order(1, True, 110), Order(2, True, 120), Order(3, True, 110)]
-        l1, l2, l3 = [Limit(110, 10, o1), Limit(120, 10, o2), Limit(110, 5, o3)]
+        user = User(1)
+        o1, o2, o3 = [
+            Order(1, True, 110, 10, user, time.time()),
+            Order(2, True, 120, 10, user, time.time()),
+            Order(3, True, 110, 10, user, time.time()),
+        ]
+        l1, l2, l3 = [Limit(o1), Limit(o2), Limit(o3)]
         l1.insert_limit(l2)
         l1.insert_limit(l3)
         o2.remove_order()

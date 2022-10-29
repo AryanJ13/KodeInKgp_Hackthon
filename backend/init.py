@@ -4,14 +4,23 @@ import sqlite3
 
 # Sr. No, Stock name, Placer, Buyer, Qty, Price
 def tradebook():
-    con = sqlite3.connect("tradebook_buys.db")
+    con = sqlite3.connect("tradebook.db")
     cur = con.cursor()
 
-    cmd = "CREATE TABLE stock(id, placer, buyer, qty, price)"
+    cmd = "CREATE TABLE stock(id, buyer, seller, qty, price, time)"
     cur.execute(cmd)
 
-    con = sqlite3.connect("tradebook_sells.db")
+
+def users():
+    con = sqlite3.connect("users.db")
     cur = con.cursor()
 
-    cmd = "CREATE TABLE stock(id, placer, seller, qty, price)"
+    cmd = "CREATE TABLE users(id, balance, qty)"
     cur.execute(cmd)
+    for i in range(5):
+        sqlite_insert_query = (
+            """INSERT INTO users(id, balance, qty)
+                                VALUES """
+            + data
+        )
+        cur.execute(sqlite_insert_query)
