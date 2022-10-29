@@ -13,6 +13,11 @@ def hello_world():
 def read_users() -> list[User]:
     con = sqlite3.connect("users.db")
     cur = con.cursor()
-    sqlite_select_query = """SELECT ALL from users"""
+    sqlite_select_query = """SELECT * from users"""
     cur.execute(sqlite_select_query)
-    return jsonify(cur.fetchall())
+    with app.app_context():
+        return jsonify(cur.fetchall())
+
+# @app.route("/user", methods=["POST"])
+# def read_users() -> list[int]:
+
