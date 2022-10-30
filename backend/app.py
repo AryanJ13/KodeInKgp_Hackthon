@@ -9,7 +9,7 @@ app = Flask(__name__)
 book = Book()
 
 
-# @app.route("/user", methods=["GET"])
+@app.route("/user", methods=["GET"])
 def read_users():
     con = sqlite3.connect("../users.db")
     cur = con.cursor()
@@ -26,7 +26,7 @@ def read_users():
         ]
 
 
-# @app.route("/price", methods=["GET"])
+@app.route("/price", methods=["GET"])
 def read_price():
     list = [0] * 1000
     con = sqlite3.connect("../tradebook.db")
