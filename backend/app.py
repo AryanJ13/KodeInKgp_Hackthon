@@ -43,7 +43,7 @@ def read_price():
 
 
 @app.route("/tradebook", methods=["GET"])
-def read_tradebook() -> list[int]:
+def read_tradebook():
     con = sqlite3.connect("../tradebook.db")
     cur = con.cursor()
     sqlite_select_query = """SELECT * from stock"""
@@ -62,7 +62,7 @@ def read_tradebook() -> list[int]:
 
 
 @app.route("/order", methods=["POST"])
-def place_order() -> list[int]:
+def place_order():
     user_id, qty, price, bos, mol = (
         request.args["user_id"],
         request.args["qty"],

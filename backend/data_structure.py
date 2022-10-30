@@ -112,7 +112,7 @@ class Book:
         return self.largestBuy(node.rightChild)
 
     # Returns lowestSell
-    def buy(self, quantity: int) -> list[Order]:
+    def buy(self, quantity: int):
         head: Limit
         head = self.lowestSell
         # if quantity>= self.ordersBuy[head.headOrder.id]:
@@ -137,7 +137,7 @@ class Book:
         # pass
 
     # Return highestBuy
-    def sell(self, quantity: int) -> list[Order]:
+    def sell(self, quantity: int):
         head: Limit
         head = self.highestBuy
         orders = []
