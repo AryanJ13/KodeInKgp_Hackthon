@@ -2,16 +2,14 @@ from re import L
 from typing_extensions import Self
 import time
 
-from user import User
-
 
 # buyOrSell: True == Buy, False == Sell
 class Order:
-    def __init__(self, id, buyOrSell, price, size, placer: User, time) -> None:
+    def __init__(self, id, buyOrSell, price, size, placer: int, time) -> None:
         self.id: int = id
         self.buyOrSell: bool = buyOrSell
         self.price: int = price
-        self.placer: User = placer
+        self.placer: int = placer
         self.time: int = time
         self.quantity: int = size
         self.nextOrder: Order = None
@@ -63,11 +61,15 @@ class Limit:
 
     def remove_limit(self):
         parent = self.parent
+        if parent == None:
+            self = None
+            return
         if self == parent.leftChild:
             parent.leftChild = None
         else:
             parent.rightChild = None
         self.parent = None
+        return 0
 
 
 class Book:
@@ -76,27 +78,30 @@ class Book:
         self.sellTree: Limit = None
         self.lowestSell: Limit = None
         self.highestBuy: Limit = None
-        self.ordersBuy: dict[int, Order] = dict()
-        self.limitsBuy: dict[int, Limit] = dict()
-        self.ordersSell: dict[int, Order] = dict()
-        self.limitsSell: dict[int, Limit] = dict()
+        self.ordersBuy = dict()
+        self.limitsBuy = dict()
+        self.ordersSell = dict()
+        self.limitsSell = dict()
 
     def insert(self, order: Order):
         if order.buyOrSell:
-            limit = self.limitsBuy[order.price]
+            limit =  self.limitsBuy[order.price] if order.price in self.limitsBuy else None
             if limit != None:
                 limit.headOrder.insert_order(order)
             else:
-                limit = Limit(order.price, order.quantity, order)
-                self.buyTree.insert_limit(limit)
+                limit = Limit(order)
+                if self.buyTree != None:
+                    self.buyTree.insert_limit(limit)
+                else: 
+                    self.buyTree = limit
                 self.ordersBuy[order.id] = order
                 self.limitsBuy[order.price] = limit
         else:
-            limit = self.limitsSell[order.price]
+            limit = self.limitsSell[order.price] if order.price in self.limitsSell else None
             if limit != None:
                 limit.headOrder.insert_order(order)
             else:
-                limit = Limit(order.price, order.quantity, order)
+                limit = Limit(order)
                 self.buyTree.insert_limit(limit)
                 self.ordersSell[order.id] = order
                 self.limitsSell[order.price] = limit
@@ -104,12 +109,14 @@ class Book:
     def get_lowestSell(self, node: Limit):
         if node.leftChild == None:
             self.lowestSell = node
-        return self.lowestSell(node.leftChild)
+            return
+        return self.get_lowestSell(node.leftChild)
 
     def get_highestBuy(self, node: Limit):
         if node.rightChild == None:
             self.highestBuy = node
-        return self.largestBuy(node.rightChild)
+            return
+        return self.get_highestBuy(node.rightChild)
 
     # Returns lowestSell
     def buy(self, quantity: int) -> list[Order]:
@@ -125,7 +132,7 @@ class Book:
             elif quantity >= node.quantity:
                 orders.append(node)
                 quantity = quantity - node.quantity
-                if head.headOrder.remove_order(node) == -1:
+                if node.remove_order() == -1:
                     self.get_highestBuy(self.buyTree)
                     self.get_lowestSell(self.buyTree)
             else:
@@ -148,14 +155,14 @@ class Book:
             elif quantity >= node.quantity:
                 orders.append(node)
                 quantity = quantity - node.quantity
-                if head.headOrder.remove_order(node) == -1:
+                if node.remove_order() == -1:
                     self.get_highestBuy(self.buyTree)
                     self.get_lowestSell(self.buyTree)
             else:
                 orders.append(node)
                 quantity = 0
                 node.quantity = node.quantity - quantity
-            node = node.next
+            node = node.nextOrder
         return orders
         # pass
 
@@ -168,7 +175,7 @@ class TestStringMethods(unittest.TestCase):
         pass
 
     def test_insert_cancel(self):
-        user = User(1)
+        user = 1
         o1, o2, o3 = [
             Order(1, True, 110, 10, user, time.time()),
             Order(2, True, 120, 10, user, time.time()),

@@ -64,23 +64,34 @@ def read_tradebook() -> list[int]:
 @app.route("/order", methods=["POST"])
 def place_order() -> list[int]:
     user_id, qty, price, bos, mol = (
-        request.args["user_id"],
-        request.args["qty"],
-        request.args["price"],
-        request.args["bos"],
-        request.args["mol"],
+        int(request.args["user_id"]),
+        int(request.args["qty"]),
+        int(request.args["price"]),
+        int(request.args["bos"]),
+        int(request.args["mol"]),
     )
-    with open("orders.log", "a") as f:
-        f.write("Order placed: " + user_id + "," + qty + "," + price + "," + bos + "," + mol + "\n")
-        f.flush()
+    f = open("orders.log", "a")
+    f.write(
+        "Order placed: "
+        + str(user_id)
+        + ","
+        + str(qty)
+        + ","
+        + str(price)
+        + ","
+        + str(bos)
+        + ","
+        + str(mol)
+        + "\n"
+    )
     if bos == 1:
         if mol == 1:
-            orders.buy_market(book, user_id, qty)
+            orders.buy_market(book, user_id, qty, price)
         else:
             orders.buy_limit(book, user_id, qty, price)
     else:
         if mol:
-            orders.sell_market(book, user_id, qty)
+            orders.sell_market(book, user_id, qty, price)
         else:
             orders.sell_limit(book, user_id, qty, price)
     return {"status": "ok"}

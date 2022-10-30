@@ -1,4 +1,21 @@
-Order placed: 1,20,20,1,1
-Order placed: 2,20,20,0,1
-Order placed: 1,10,20,1,0
-Order placed: 2,10,20,0,0
+limit buy order pushed to book
+Order placed: 1,2,3,1,0
+limit sell order matched
+Order placed: 1,2,3,0,0
+limit buy order pushed to book
+Order placed: 1,2,3,1,0
+limit sell order matched
+Order placed: 1,2,3,0,0
+Order placed: 1,2,3,1,1
+Order placed: 1,2,3,0,1
+Order placed: 1,2,3,1,1
+limit buy order pushed to book
+Order placed: 1,2,3,1,0
+limit sell order matched
+Order placed: 1,2,3,0,0
+Order placed: 1,2,3,1,1
+Order placed: 1,2,3,0,1
+limit buy order pushed to book
+Order placed: 1,2,3,1,0
+limit sell order matched
+Order placed: 1,2,3,0,0
