@@ -2,7 +2,9 @@ from random import randint
 import sqlite3
 import time
 import unittest
+import time
 from data_structure import Book, Limit, Order
+from user import User
 
 
 def generate_id() -> int:
@@ -10,32 +12,35 @@ def generate_id() -> int:
 
 
 # cmd = "CREATE TABLE stock(id, buyer, seller, qty, price, time)"
-def buy_market(book: Book, buyer: int, quantity: int):
-    orders = book.buy(quantity)
-    con = sqlite3.connect("tradebook.db")
-    cur = con.cursor()
-    for order in orders:
-        data = (
-            "("
-            + str(generate_id())
-            + ","
-            + buyer.id
-            + ","
-            + order.placer.id
-            + ","
-            + order.quantity
-            + ","
-            + order.price
-            + ","
-            + order.time
-            + ")"
-        )
-        sqlite_insert_query = (
-            """INSERT INTO stock(id, buyer, seller, qty, price, time)
-                                VALUES """
-            + data
-        )
-        cur.execute(sqlite_insert_query)
+def buy_market(book: Book, buyer: int, quantity: int,price: int):
+    if book.sellTree==None:
+        book.insert(Order(generate_id(),True,price,quantity,buyer,time.time()))
+    else:
+        orders = book.buy(quantity)
+        con = sqlite3.connect("tradebook.db")
+        cur = con.cursor()
+        for order in orders:
+            data = (
+                "("
+                + str(generate_id())
+                + ","
+                + buyer.id
+                + ","
+                + order.placer.id
+                + ","
+                + order.quantity
+                + ","
+                + order.price
+                + ","
+                + order.time
+                + ")"
+            )
+            sqlite_insert_query = (
+                """INSERT INTO stock(id, buyer, seller, qty, price, time)
+                                    VALUES """
+                + data
+            )
+            cur.execute(sqlite_insert_query)
 
     # con = sqlite3.connect('orderbooks_buys.db')
     # cur = con.cursor()
@@ -54,33 +59,35 @@ def buy_market(book: Book, buyer: int, quantity: int):
     pass
 
 
-def sell_market(book: Book, seller: int, quantity: int):
-    orders = book.sell(quantity)
-    con = sqlite3.connect("tradebook.db")
-    cur = con.cursor()
-    for order in orders:
-        data = (
-            "("
-            + str(generate_id())
-            + ","
-            + order.placer.id
-            + ","
-            + seller.id
-            + ","
-            + order.quantity
-            + ","
-            + order.price
-            + ","
-            + order.time
-            + ")"
-        )
-        sqlite_insert_query = (
-            """INSERT INTO stock(id, buyer, seller, qty, price, time)
-                                VALUES """
-            + data
-        )
-        cur.execute(sqlite_insert_query)
-
+def sell_market(book: Book, seller: int, quantity: int,price: int):
+    if book.buyTree==None:
+        book.insert(Order(generate_id(),True,price,quantity,seller,time.time()))
+    else:
+        orders = book.sell(quantity)
+        con = sqlite3.connect("tradebook.db")
+        cur = con.cursor()
+        for order in orders:
+            data = (
+                "("
+                + str(generate_id())
+                + ","
+                + order.placer.id
+                + ","
+                + seller.id
+                + ","
+                + order.quantity
+                + ","
+                + order.price
+                + ","
+                + order.time
+                + ")"
+            )
+            sqlite_insert_query = (
+                """INSERT INTO stock(id, buyer, seller, qty, price, time)
+                                    VALUES """
+                + data
+            )
+            cur.execute(sqlite_insert_query)
 
 def buy_limit(book: Book, buyer: int, quantity: int, price: int):
     randId = generate_id()
