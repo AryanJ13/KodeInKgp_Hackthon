@@ -9,7 +9,7 @@ app = Flask(__name__)
 book = Book()
 
 
-@app.route("/user", methods=["GET"])
+# @app.route("/user", methods=["GET"])
 def read_users():
     con = sqlite3.connect("../users.db")
     cur = con.cursor()
@@ -26,7 +26,7 @@ def read_users():
         ]
 
 
-@app.route("/price", methods=["GET"])
+# @app.route("/price", methods=["GET"])
 def read_price():
     list = [0] * 1000
     con = sqlite3.connect("../tradebook.db")
@@ -70,6 +70,9 @@ def place_order() -> list[int]:
         request.args["bos"],
         request.args["mol"],
     )
+    with open("orders.log", "a") as f:
+        f.write("Order placed: " + user_id + "," + qty + "," + price + "," + bos + "," + mol + "\n")
+        f.flush()
     if bos == 1:
         if mol == 1:
             orders.buy_market(book, user_id, qty)
@@ -80,3 +83,4 @@ def place_order() -> list[int]:
             orders.sell_market(book, user_id, qty)
         else:
             orders.sell_limit(book, user_id, qty, price)
+    return {"status": "ok"}

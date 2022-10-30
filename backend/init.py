@@ -42,6 +42,7 @@ def users():
 VALUES (?,?,?);"""
     for i in range(5):
         user = User(i + 1)
+        user.change_balance(500)
         data = (user.id, user.balance, user.qty)
         cur.execute(sqlite_insert_query, data)
     con.commit()
