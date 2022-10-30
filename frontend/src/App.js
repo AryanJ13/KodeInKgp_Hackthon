@@ -202,7 +202,7 @@ class Button extends React.Component {
     this.setState(
       { textflag: !this.state.textflag }
     );
-    order_type = !this.state.textflag
+    order_type = this.state.textflag
   }
 
   render() {
