@@ -84,18 +84,30 @@ def sell_market(book: Book, seller: int, quantity: int):
 
 def buy_limit(book: Book, buyer: int, quantity: int, price: int):
     randId = generate_id()
-    if price < book.lowestSell(book, book.sellTree):
+    if price <= book.lowestSell(book, book.sellTree):
         book.insert(Order(randId, True, price, quantity))
+        with open("orders.txt", "a") as f:
+            f.write("buy order matched\n")
+            f.flush()
     else:
         buy_market(book, buyer, quantity)
+        with open("orders.txt", "a") as f:
+            f.write("buy order pushed to book\n")
+            f.flush()
 
 
 def sell_limit(book: Book, buyer: int, quantity: int, price: int):
     randId = generate_id()
-    if price > book.LargestBuy(book, book.buyTree):
+    if price >= book.LargestBuy(book, book.buyTree):
         book.insert(Order(randId, False, price, quantity))
+        with open("orders.txt", "a") as f:
+            f.write("sell order matched\n")
+            f.flush()
     else:
         sell_market(book, buyer, quantity)
+        with open("orders.txt", "a") as f:
+            f.write("sell order pushed to book\n")
+            f.flush()
 
 
 class TestStringMethods(unittest.TestCase):

@@ -118,7 +118,7 @@ class Book:
         # if quantity>= self.ordersBuy[head.headOrder.id]:
         orders = []
         orders = None
-        node = head.headOrder
+        node = None if head == None else head.headOrder
         while node != None:
             if quantity == 0:
                 break
@@ -127,6 +127,7 @@ class Book:
                 quantity = quantity - node.quantity
                 if head.headOrder.remove_order(node) == -1:
                     self.get_highestBuy(self.buyTree)
+                    self.get_lowestSell(self.buyTree)
             else:
                 orders.append(node)
                 quantity = 0
@@ -140,8 +141,7 @@ class Book:
         head: Limit
         head = self.highestBuy
         orders = []
-        orders = None
-        node = head.headOrder
+        node = None if head == None else head.headOrder
         while node != None:
             if quantity == 0:
                 break
@@ -149,7 +149,8 @@ class Book:
                 orders.append(node)
                 quantity = quantity - node.quantity
                 if head.headOrder.remove_order(node) == -1:
-                    self.get_lowestSell(self.sellTree)
+                    self.get_highestBuy(self.buyTree)
+                    self.get_lowestSell(self.buyTree)
             else:
                 orders.append(node)
                 quantity = 0
